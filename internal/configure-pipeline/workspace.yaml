@@ -48,3 +48,4 @@ spec:
       }
   writeConnectionSecretToRef:
     name: tf-<tbr-name>-outputs
+    workspace: default

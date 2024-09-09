@@ -40,11 +40,11 @@ spec:
         - apiVersion: platform.kratix.io/v1alpha1
           kind: Pipeline
           metadata:
-            name: workspace-configure
+            name: instance-configure
           spec:
             containers:
               - name: create-terraform-workspace
-                image: ghcr.io/joerx/kratix-terraform-promise:210207d
+                image: ghcr.io/joerx/kratix-terraform-promise:b0602d6
                 imagePullPolicy: Always
   dependencies:
 status: {}
