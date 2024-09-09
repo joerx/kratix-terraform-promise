@@ -44,7 +44,7 @@ spec:
           spec:
             containers:
               - name: create-terraform-workspace
-                image: ghcr.io/joerx/kratix-terraform-promise:b0602d6
+                image: ghcr.io/joerx/kratix-terraform-promise:68572c2
                 imagePullPolicy: Always
   dependencies:
 status: {}
