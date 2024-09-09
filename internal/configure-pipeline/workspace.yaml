@@ -1,0 +1,49 @@
+apiVersion: tf.upbound.io/v1beta1
+kind: Workspace
+metadata:
+  name: tf-<tbr-name>
+  annotations:
+    # # The terraform workspace will be named 'coolbucket'. If you omit this
+    # # annotation it would be derived from metadata.name - e.g. 'example-inline'.
+    # crossplane.io/external-name: coolbucket
+spec:
+  providerConfigRef:
+    name: tf-<tbr-name>
+  forProvider:
+    # Workspaces default to using a remote source
+    # For simple cases you can use an inline source to specify the content of
+    # main.tf as opaque, inline HCL.
+    source: Inline
+    module: |
+      terraform {
+        backend "s3" {
+          bucket         = "sandbox-tfstate-n6xabm"
+          dynamodb_table = "sandbox-tfstate-n6xabm"
+          kms_key_id     = "alias/sandbox-tfstate-n6xabm"
+          encrypt        = true
+          profile        = "default"
+          key            = "<tbr-workspace-key>"
+          region         = "ap-southeast-1"
+          shared_credentials_file = "credentials" # Deprecated, replace with `shared_credentials_file` in 1.6
+        }
+      }
+
+      provider "aws" {
+        shared_credentials_files = ["credentials"]
+        profile = "default"
+        region = "<tbr-region>"
+      }
+
+      // Outputs are written to the connection secret.
+      output "bucket_arn" {
+        value = aws_s3_bucket.demo.arn
+      }
+
+      resource "aws_s3_bucket" "demo" {
+        bucket_prefix = "<tbr-name>-"
+        tags = {
+          environment = "<tbr-environment>"
+        }
+      }
+  writeConnectionSecretToRef:
+    name: tf-<tbr-name>-outputs

@@ -2,12 +2,26 @@
 
 set -x
 
-#Get the name from the Promise Custom resource
-instanceName=$(yq eval '.spec.name' /kratix/input/object.yaml)
+# Get the name from the Promise Custom resource
+workspaceName=$(yq eval '.metadata.name' /kratix/input/object.yaml)
+workspaceRegion=$(yq eval '.spec.region' /kratix/input/object.yaml)
+workspaceEnv=$(yq eval '.spec.region' /kratix/input/object.yaml)
+workspaceKey=$(uuidgen)
 
-# Inject the name into the Jenkins resources
 find /tmp/transfer -type f -exec sed -i \
-  -e "s/<tbr-name>/${instanceName}/g" \
+  -e "s/<tbr-name>/${workspaceName}/g" \
+  {} \;
+
+find /tmp/transfer -type f -exec sed -i \
+  -e "s/<tbr-region>/${workspaceRegion}/g" \
+  {} \;
+
+find /tmp/transfer -type f -exec sed -i \
+  -e "s/<tbr-environment>/${workspaceEnv}/g" \
+  {} \;
+
+find /tmp/transfer -type f -exec sed -i \
+  -e "s/<tbr-workspace-key>/${workspaceKey}/g" \
   {} \;
 
 cp /tmp/transfer/* /kratix/output/

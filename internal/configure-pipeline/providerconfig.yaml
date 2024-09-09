@@ -1,0 +1,13 @@
+---
+apiVersion: tf.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: tf-<tbr-name>
+spec:
+  credentials:
+    - filename: credentials
+      source: Secret
+      secretRef:
+        namespace: crossplane-system
+        name: tf-aws-creds
+        key: credentials

@@ -1,6 +1,7 @@
-apiVersion: promise.example.com/v1
-kind: jenkins
+apiVersion: example.promise.yodo.dev/v1
+kind: bucket
 metadata:
-  name: my-promise-request
+  name: my-amazing-bucket
 spec:
-  name: my-amazing-jenkins
+  region: eu-central-1
+  environment: production
