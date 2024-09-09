@@ -8,6 +8,8 @@ workspaceRegion=$(yq eval '.spec.region' /kratix/input/object.yaml)
 workspaceEnv=$(yq eval '.spec.region' /kratix/input/object.yaml)
 workspaceKey=$(uuidgen)
 
+cat /tmp/transfer/*
+
 find /tmp/transfer -type f -exec sed -i \
   -e "s/<tbr-name>/${workspaceName}/g" \
   {} \;
@@ -23,5 +25,7 @@ find /tmp/transfer -type f -exec sed -i \
 find /tmp/transfer -type f -exec sed -i \
   -e "s/<tbr-workspace-key>/${workspaceKey}/g" \
   {} \;
+
+cat /tmp/transfer/*
 
 cp /tmp/transfer/* /kratix/output/
